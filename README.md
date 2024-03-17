@@ -6,6 +6,9 @@
  - python3 bingo.py client '' -p [port] -s [server的IP address]
 
 # 條件未完成
+
+
+# Picture
 ![](play.png)
 
 
