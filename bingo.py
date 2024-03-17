@@ -15,12 +15,15 @@ def start():
     print(Back.MAGENTA+Fore.BLACK+'name,your number', end='')
     print('to join this game')
     print('Your input = ', end='')
-#    text = input()
-#    name = text.split(',')[0]
-#    num = text.split(',')[1:]
     text = input()
-    name = text.split(';')[0]
-    num = text.split(';')[1].split(',')
+    name = text.split(',')[0]
+    num = text.split(',')[1:]
+    print(name)
+    print(num)
+    print(text)
+#    text = input()
+#    name = text.split(';')[0]
+#    num = text.split(';')[1].split(',')
     os.system("clear")
     print('Welcome '+Fore.YELLOW+name, end='')
     print(" ! Let's wait for the game start!")
@@ -61,15 +64,16 @@ def server(network, port, ser_addr):
     delay = 10.0
     sock.settimeout(delay)
     try:
+        text = ''
         i = 1
         while(1):
             data, address = sock.recvfrom(BUFSIZE)
-#            text = data.decode('ascii').split(',')
+            data = data.decode('ascii').split(',')
+            who = data[0]
+            number = data[1:]
+#            text = data.decode('ascii').split(';')
 #            who = text[0]
-#            number = text[1:]
-            text = data.decode('ascii').split(';')
-            who = text[0]
-            number = text[1].split(',')
+#            number = text[1].split(',')
             player[address] = [who,number]
             print(f'Player \033[33m{who}\033[0m join this game.')
 
@@ -78,6 +82,9 @@ def server(network, port, ser_addr):
             sock.sendto(text,address)
             i += 1
     except:
+        if i == 1:
+#            print('Nobody join this game')
+            exit()
         print('\033[92mGame Start!\033[0m')
     text = 'start'
     sock.sendto(text.encode('ascii'), (network, port))
@@ -153,7 +160,7 @@ def client(interface, port, ser_addr):
         indata, addr = sock.recvfrom(BUFSIZE)
         if indata.decode('ascii')[:5] == 'Bingo':
             print(indata.decode('ascii'))
-            return
+            exit()
 #            break;
 
 #        os.system('clear')
